@@ -5,21 +5,14 @@ class DialogFlow:
     
 
     def __init__(self) -> None:
-        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) + "\keys\cmf2022.json"
-        print("INIT DIALOGFLOW")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.dirname(os.path.abspath(__file__)) + "/keys/cmf2022.json"
         self.client = dialogflow_v2.SessionsClient()
-        print("CLIENTE ", self.client)
-        print(os.path.dirname(os.path.abspath(__file__)) + "\keys\cmf2022.json")
-        print("PROJECT_ID " + os.environ.get("PROJECT_ID"))
-        print("SESSION_ID " + os.environ.get("SESSION_ID", "me"))
         self.session = self.client.session_path(project = os.environ.get("PROJECT_ID"), session =os.environ.get("SESSION_ID", "me"))
     
     async def message(self, text: str) -> str:
-        print("MESSAGE " + text)
         text_input = dialogflow_v2.TextInput(text=text, language_code="es")
         query_input = dialogflow_v2.QueryInput(text=text_input)
         response = self.client.detect_intent(query_input=query_input, session=self.session)
         return response.query_result.fulfillment_text
 
 DialogFlowService = DialogFlow()
-print("DIALOGFLOWSERVICE" , DialogFlow.message)
