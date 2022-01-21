@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field, constr
-
+from typing import Optional
 
 class FromSchema(BaseModel):
     id: int = Field(..., title="ID del usuario")
@@ -12,7 +12,7 @@ class FromSchema(BaseModel):
 class ChatSchema(BaseModel):
     id: int = Field(..., title="ID del chat")
     first_name: constr(strict=True) = Field(..., title="Nombre del usuario")
-    username: constr(strict=True) = Field(..., title="Nombre de usuario")
+    username: Optional[str] = Field(None , title="Nombre de usuario")
     type: constr(strict=True) = Field(..., title="Tipo de chat")
 
 
